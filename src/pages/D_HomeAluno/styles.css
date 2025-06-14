@@ -1,0 +1,178 @@
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;            /* Ocupa toda a largura */
+  font-family: Arial, sans-serif;
+  overflow: hidden;        /* Evita rolagem indesejada */
+}
+
+.sidebar {
+  width: 200px;            /* Um pouco mais larga */
+  height: 100%;            /* Altura total da tela */
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+}
+
+.logo-fixa {
+  position: fixed;
+  top: 20px;
+  left: -10px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.logo-fixa img {
+  width: 150px;
+}
+
+.sidebar-scroll {
+  margin-top: 100px; /* altura suficiente pra deixar espaço da logo fixa */
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: auto;
+}
+
+.menu button {
+  border: none;
+  background: none;
+  color: #03bcd3;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  text-decoration: underline;
+}
+
+.logout {
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Main */
+.content {
+  flex: 1;
+  background-color: #f9f9f9;
+  height: 100%;
+  padding: 40px;
+  overflow-y: auto;  /* Permite scroll vertical suave se necessário */
+}
+
+
+/* Topbar */
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.notificacao {
+  position: relative;
+  cursor: pointer;
+}
+
+.notificacao img {
+  width: 22px;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: red;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.perfil img {
+  width: 28px;
+}
+
+.infos {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+}
+
+/* Welcome + Cards */
+.boasvindas h1 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.boasvindas p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  text-align: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.card span {
+  font-size: 14px;
+  color: #555;
+}
+
+.card:hover {
+  background-color: #03bcd3;
+  color: white;
+  border: none;
+}
+
+.card:hover span {
+  color: white;
+}
