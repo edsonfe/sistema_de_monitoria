@@ -1,0 +1,154 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  background-color: #fff;
+}
+
+/* Estrutura da tela */
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+}
+
+.esquerda, .direita {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.direita img {
+  max-width: 75%;
+}
+
+/* Título */
+.topo {
+  margin-bottom: 30px;
+}
+
+.topo h2 {
+  font-size: 30px;
+  color: #333;
+}
+
+/* Etapas do topo */
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+}
+
+.step span {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #888;
+}
+
+.circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #ccc;
+  color: white;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  font-size: 14px;
+}
+
+.circle.active {
+  background-color: #03bcd3;
+}
+
+/* Formulário */
+.form {
+  width: 80%;
+  max-width: 400px;
+}
+
+.form-step {
+  display: none;
+}
+
+.form-step.active {
+  display: block;
+  animation: fade 0.3s ease-in-out;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Botões */
+.btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #03bcd3;
+  background-color: white;
+  color: #03bcd3;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #e4f8fb;
+}
+
+.btn.next {
+  background-color: #ffffff;
+  color: #03bcd3;
+}
+
+.btn.next:hover {
+  background-color: #e4f8fb;
+}
+
+.btn.cancelar {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #03bcd3;
+  background-color: white;
+  color: #03bcd3;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn.cancelar:hover {
+  background-color: #e4f8fb;
+}
