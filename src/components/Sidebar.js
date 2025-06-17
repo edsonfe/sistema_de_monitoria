@@ -11,8 +11,8 @@ export default function Sidebar() {
           <img src={logo} alt="logo" />
         </div>
         <div className="menu">
-          <button onClick={() => navigate('/#')}>Buscar monitorias</button>
-          <button onClick={() => navigate('/#')}>Minhas sessões</button>
+          <button onClick={() => navigate('/buscar-monitoria')}>Buscar monitorias</button>
+          <button onClick={() => navigate('/sessao-aluno')}>Minhas sessões</button>
         </div>
       </div>
       <div className="logout-button">

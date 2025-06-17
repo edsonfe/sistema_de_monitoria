@@ -5,11 +5,11 @@ export default function CardsPainel() {
 
   return (
     <div className="cards">
-      <div className="card azul" onClick={() => navigate('/monitorias')}>
+      <div className="card" onClick={() => navigate('/buscar-monitoria')}>
         <h3>Buscar</h3>
         <span>monitorias</span>
       </div>
-      <div className="card" onClick={() => navigate('/sessoes')}>
+      <div className="card" onClick={() => navigate('/sessao-aluno')}>
         <h3>Minhas</h3>
         <span>sessões</span>
       </div>

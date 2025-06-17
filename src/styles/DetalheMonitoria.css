@@ -1,0 +1,57 @@
+.detalhe-monitoria {
+  padding: 30px;
+  max-width: 600px;
+}
+
+.voltar-home {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.voltar-home img {
+  width: 25px;
+}
+
+.voltar-home span {
+  font-size: 12px;
+  color: #a3a3a3;
+  margin-left: 3px;
+}
+
+.detalhe-monitoria h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.horarios p {
+  font-weight: bold;
+}
+
+.horarios ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+}
+
+.horarios li {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.btn-agendar {
+  margin-top: 20px;
+  background-color: #03bcd3;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.btn-agendar:hover {
+  background-color: #029db2;
+}
