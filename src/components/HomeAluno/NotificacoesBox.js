@@ -7,7 +7,7 @@ export default function NotificacoesBox() {
   useEffect(() => {
     setTimeout(() => {
       setNotificacoes([
-        { texto: 'Nova mensagem de Monitor A', link: '/chat' },
+        { texto: 'Nova mensagem de chat', link: '/chat' },
         { texto: 'Novo material disponível', link: '/materiais' }
       ]);
     }, 500);

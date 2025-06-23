@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import '../styles/SessaoAluno.css';
+import '../styles/Sessao.css';
 
 export default function SessaoAluno() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function SessaoAluno() {
 
   return (
     <div className="content">
-      <div className="voltar-home" onClick={() => navigate(-1, { replace: true })}>
+      <div className="voltar-home" onClick={() => navigate('/home-aluno')}>
         <img src="https://img.icons8.com/ios-filled/24/03bcd3/left.png" alt="Voltar" />
         <span>Voltar</span>
       </div>

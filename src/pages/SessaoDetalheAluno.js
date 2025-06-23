@@ -5,7 +5,7 @@ import SessaoInfo from '../components/Sessoes/SessaoInfo';
 import LinkReuniao from '../components/Sessoes/LinkReuniao';
 import BotoesAcoes from '../components/Sessoes/BotoesAcoes';
 import ModalExclusao from '../components/Sessoes/ModalExclusao';
-import '../styles/SessaoDetalhes.css';
+import '../styles/SessaoDetalhe.css';
 
 export default function SessaoDetalhes() {
   const [modalVisivel, setModalVisivel] = useState(false);
@@ -37,9 +37,11 @@ export default function SessaoDetalhes() {
       <BotoesAcoes
         onMateriais={() => navigate('/materiais')}
         onChat={() => navigate('/chat')}
-        onAvaliar={() => navigate('/avaliacao')}
+        onPrimario={() => navigate('/avaliacao')}
         onExcluir={handleExcluir}
+        tipo="aluno"
       />
+
       {modalVisivel && <ModalExclusao onClose={fecharModal} />}
     </div>
   );

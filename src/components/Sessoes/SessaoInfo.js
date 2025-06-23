@@ -1,7 +1,7 @@
-export default function SessaoInfo({ disciplina, monitor, horarios }) {
+export default function SessaoInfo({ titulo, monitor, horarios }) {
   return (
     <>
-      <h2 className="titulo-monitoria">{disciplina}</h2>
+      <h2 className="titulo-monitoria">{titulo}</h2>
       <p className="nome-monitor">
         <strong>Monitor:</strong> {monitor}
       </p>

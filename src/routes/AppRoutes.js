@@ -8,9 +8,15 @@ import Perfil from '../pages/Perfil';
 import BuscarMonitoria from '../pages/BuscarMonitoria';
 import DetalheMonitoria from '../pages/DetalheMonitoria';
 import SessaoAluno from '../pages/SessaoAluno';
-import SessaoDetalhes from '../pages/SessaoDetalhes';
+import SessaoMonitor from '../pages/SessaoMonitor';
+import SessaoDetalheAluno from '../pages/SessaoDetalheAluno';
 import AvaliacaoSessao from '../pages/AvaliacaoSessao';
-
+import Chat from '../pages/Chat';
+import MateriaisApoio from '../pages/MateriaisApoio';
+import CadastrarMonitoria from '../pages/CadastrarMonitoria';
+import SessoesCadastradas from '../pages/SessaoMonitor';
+import SessaoDetalheMonitor from '../pages/SessaoDetalheMonitor';
+import MateriaisApoioMonitor from '../pages/MateriaisApoioMonitor';
 
 export default function AppRoutes() {
   return (
@@ -26,8 +32,17 @@ export default function AppRoutes() {
       <Route path='/buscar-monitoria' element={<BuscarMonitoria/>} />
       <Route path='/detalhe-monitoria/:id' element={<DetalheMonitoria/>} />
       <Route path='/sessao-aluno' element={<SessaoAluno/>} />
-      <Route path='/sessao-detalhe' element={<SessaoDetalhes />} />
+      <Route path='/sessao-detalhe' element={<SessaoDetalheAluno />} />
       < Route path='/avaliacao' element={<AvaliacaoSessao/>} />
+      < Route path='/chat' element={<Chat/>}/>
+      < Route path='/materiais' element={<MateriaisApoio/>}/>
+      < Route path='/sessao-monitor' element={<SessaoMonitor/>}/>
+      < Route path='/cadastrar' element={<CadastrarMonitoria/>}/>
+      < Route path='/cadastradas' element={<SessoesCadastradas/>}/>
+      < Route path='/sessao-detalhe-monitor' element={<SessaoDetalheMonitor/>}/>
+      <Route path="/editar-monitoria" element={<CadastrarMonitoria />} />
+      <Route path="/material-apoio" element={<MateriaisApoioMonitor />} />
+
       
 
     </Routes>

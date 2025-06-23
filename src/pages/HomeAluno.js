@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import Sidebar from '../components/Sidebar';
-import Topbar from '../components/Topbar';
-import CardsPainel from '../components/CardsPainel';
-import '../styles/HomeAluno.css';
+import Sidebar from '../components/HomeAluno/Sidebar';
+import Topbar from '../components/HomeAluno/Topbar';
+import CardsPainel from '../components/HomeAluno/CardsPainel';
+import '../styles/Home.css';
 
 export default function HomeAluno() {
   const [usuario] = useState({
