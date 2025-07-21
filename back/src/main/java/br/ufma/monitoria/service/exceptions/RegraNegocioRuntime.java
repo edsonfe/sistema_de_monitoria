@@ -5,3 +5,4 @@ public class RegraNegocioRuntime extends RuntimeException {
         super(mensagem);
     }
 }
+
