@@ -1,0 +1,77 @@
+{"properties": [
+  {
+    "name": "\nspring.datasource.usernam",
+    "type": "java.lang.String",
+    "description": "A description for '\nspring.datasource.usernam'"
+  },
+  {
+    "name": "\nspring.datasource.passwor",
+    "type": "java.lang.String",
+    "description": "A description for '\nspring.datasource.passwor'"
+  },
+  {
+    "name": "\nspring.datasource.driver-class-nam",
+    "type": "java.lang.String",
+    "description": "A description for '\nspring.datasource.driver-class-nam'"
+  },
+  {
+    "name": "\r\nspring.jpa.database-platfo",
+    "type": "java.lang.String",
+    "description": "A description for '\r\nspring.jpa.database-platfo'"
+  },
+  {
+    "name": "o\r\nlogging.level.org.hibernate.",
+    "type": "java.lang.String",
+    "description": "A description for 'o\r\nlogging.level.org.hibernate.'"
+  },
+  {
+    "name": "G\r\nlogging.level.org.hibernate.type.descriptor.sql.BasicBin",
+    "type": "java.lang.String",
+    "description": "A description for 'G\r\nlogging.level.org.hibernate.type.descriptor.sql.BasicBin'"
+  },
+  {
+    "name": "le\r\nspring.h2.console.ena",
+    "type": "java.lang.String",
+    "description": "A description for 'le\r\nspring.h2.console.ena'"
+  },
+  {
+    "name": "ue\r\nspring.h2.console.",
+    "type": "java.lang.String",
+    "description": "A description for 'ue\r\nspring.h2.console.'"
+  },
+  {
+    "name": "\r\nspring.jpa.hibernate.ddl-au",
+    "type": "java.lang.String",
+    "description": "A description for '\r\nspring.jpa.hibernate.ddl-au'"
+  },
+  {
+    "name": "\r\nspring.jpa.show-s",
+    "type": "java.lang.String",
+    "description": "A description for '\r\nspring.jpa.show-s'"
+  },
+  {
+    "name": "\r\nspring.jpa.properties.hibernate.format_s",
+    "type": "java.lang.String",
+    "description": "A description for '\r\nspring.jpa.properties.hibernate.format_s'"
+  },
+  {
+    "name": "\r\nspring.jpa.defer-datasource-initializati",
+    "type": "java.lang.String",
+    "description": "A description for '\r\nspring.jpa.defer-datasource-initializati'"
+  },
+  {
+    "name": "\nspring.datasource.ur",
+    "type": "java.lang.String",
+    "description": "A description for '\nspring.datasource.ur'"
+  },
+  {
+    "name": "G\r\nlogging.level.org.hibernate.type.descriptor.sql.BasicBin",
+    "type": "java.lang.String",
+    "description": "A description for 'G\r\nlogging.level.org.hibernate.type.descriptor.sql.BasicBin'"
+  },
+  {
+    "name": "G\r\nlogging.level.org.hibernate.type.descriptor.sql.BasicBin",
+    "type": "java.lang.String",
+    "description": "A description for 'G\r\nlogging.level.org.hibernate.type.descriptor.sql.BasicBin'"
+  }
+]}

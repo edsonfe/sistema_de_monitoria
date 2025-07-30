@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "material.upload.dir",
+      "type": "java.lang.String",
+      "description": "Diretório base para armazenar arquivos enviados"
+    }
+  ]
+}
