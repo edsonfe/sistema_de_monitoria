@@ -1,0 +1,68 @@
+.perfil {
+  padding: 30px;
+  max-width: 600px;
+}
+
+.voltar-home {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.voltar-home img {
+  width: 25px;
+}
+
+.voltar-home span {
+  font-size: 12px;
+  color: #a3a3a3;
+  margin-left: 3px;
+}
+
+.perfil h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-weight: lighter;
+  font-size: 14px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input:disabled {
+  background-color: #f1f1f1;
+  color: #b6b6b6;
+}
+
+.botoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.botoes button {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #03bcd3;
+  color: white;
+}
+
+.botoes button:nth-child(2) {
+  background-color: #2ecc71;
+}

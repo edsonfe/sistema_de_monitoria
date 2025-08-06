@@ -1,0 +1,147 @@
+.content {
+  padding: 30px;
+}
+
+.voltar-home {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.voltar-home img {
+  width: 25px;
+}
+
+.voltar-home span {
+  font-size: 12px;
+  color: #a3a3a3;
+  margin-left: 3px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.grade-horaria {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  margin-top: 20px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.cabecalho, .linha-horario {
+  display: grid;
+  grid-template-columns: 80px repeat(6, 1fr);
+}
+
+.celula-header {
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  border: 1px solid #ddd;
+}
+
+.horario {
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+}
+
+.celula {
+  height: 60px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.celula.verde {
+  background-color: #2ecc71;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.lista-sessoes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.card-sessao {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-sessao h3 {
+  margin: 0 0 8px;
+  color: #03bcd3;
+}
+
+.card-sessao p {
+  margin: 4px 0;
+}
+
+.btn-entrar {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #03bcd3;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.btn-entrar:hover {
+  background: #0292a5;
+}
+/*
+.lista-sessoes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.card-sessao {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-sessao h3 {
+  margin: 0 0 8px;
+  color: #03bcd3;
+}
+
+.card-sessao p {
+  margin: 4px 0;
+}
+
+.btn-entrar {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #03bcd3;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.btn-entrar:hover {
+  background: #0292a5;
+}
+
+
+*/
