@@ -69,3 +69,79 @@ h2 {
   font-weight: bold;
   cursor: pointer;
 }
+.lista-sessoes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.card-sessao {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-sessao h3 {
+  margin: 0 0 8px;
+  color: #03bcd3;
+}
+
+.card-sessao p {
+  margin: 4px 0;
+}
+
+.btn-entrar {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #03bcd3;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.btn-entrar:hover {
+  background: #0292a5;
+}
+/*
+.lista-sessoes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.card-sessao {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-sessao h3 {
+  margin: 0 0 8px;
+  color: #03bcd3;
+}
+
+.card-sessao p {
+  margin: 4px 0;
+}
+
+.btn-entrar {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #03bcd3;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.btn-entrar:hover {
+  background: #0292a5;
+}
+
+
+*/

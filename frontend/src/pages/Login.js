@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ilustracaoAlunos from '../assets/img-login1.png';
@@ -12,6 +12,13 @@ export default function Login() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState('');
   const navigate = useNavigate();
+
+  // 🔹 Limpa session antiga ao abrir a tela de login
+  useEffect(() => {
+    localStorage.removeItem('usuarioId');
+    localStorage.removeItem('tipoUsuario');
+    localStorage.removeItem('usuarioNome');
+  }, []);
 
   const handleEscolha = (roleSelecionado) => {
     setRole(roleSelecionado);
@@ -35,7 +42,7 @@ export default function Login() {
         {step === 1 ? (
           <StepEscolhaUsuario onEscolher={handleEscolha} />
         ) : (
-          <StepLoginForm onEntrar={handleEntrar} />
+          <StepLoginForm onEntrar={handleEntrar} role={role} />
         )}
       </div>
       <div className="direita">

@@ -1,28 +1,55 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/AvaliacaoSessao.css';
 
 export default function AvaliacaoSessao() {
   const [estrelas, setEstrelas] = useState(0);
   const [comentario, setComentario] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 🔹 Pega o ID da sessão passada pela navegação
+  const sessaoId = location.state?.sessaoId;
+
+  // 🔹 Pega ID do aluno do localStorage
+  const alunoId = localStorage.getItem('usuarioId');
 
   const handleEstrelaClick = (value) => setEstrelas(value);
 
-  const handleEnviar = () => {
+  const handleEnviar = async () => {
     if (estrelas === 0) {
       alert('Por favor, selecione uma nota antes de enviar.');
       return;
     }
 
-    // Aqui você pode enviar para API
-    console.log({
-      nota: estrelas,
-      comentario
-    });
+    if (!sessaoId || !alunoId) {
+      alert('Sessão ou usuário inválido. Faça login novamente.');
+      navigate('/login');
+      return;
+    }
 
-    alert('Avaliação enviada com sucesso!');
-    navigate('/sessao-aluno');
+    try {
+      const response = await fetch('http://localhost:8080/api/avaliacoes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessaoId: Number(sessaoId),
+          alunoId: Number(alunoId),
+          estrelas,
+          comentario,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Erro ao enviar avaliação');
+      }
+
+      alert('Avaliação enviada com sucesso!');
+      navigate('/sessao-aluno');
+    } catch (error) {
+      alert('Erro: ' + error.message);
+    }
   };
 
   return (

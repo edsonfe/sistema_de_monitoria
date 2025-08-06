@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import PageContainer from '../components/Shared/PageContainer';
 import SearchBox from '../components/BoxIndicacaoMonitoria/SearchBox';
 import MonitoriaList from '../components/BoxIndicacaoMonitoria/MonitoriaList';
@@ -9,29 +9,33 @@ import '../styles/MonitoriasDisponiveis.css';
 
 export default function MonitoriasDisponiveis() {
   const [busca, setBusca] = useState('');
+  const [monitorias, setMonitorias] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const usuario = location.state?.usuario;
 
-  const todasMonitorias = [
-    { nome: 'Monitor 01', disciplina: 'Estrutura de Dados I', horarios: 'Seg: 10:00 - 11:00 | Qua: 10:00 - 12:00' },
-    { nome: 'Monitor 02', disciplina: 'Linguagem de Programação', horarios: 'Ter: 10:00 - 11:00 | Qui: 10:00 - 12:00' },
-    { nome: 'Monitor 03', disciplina: 'Redes de Computadores', horarios: 'Sex: 10:00 - 11:00 | Sáb: 10:00 - 12:00' },
-  ];
+  useEffect(() => {
+    fetch('http://localhost:8080/api/monitorias')
+      .then(res => res.json())
+      .then(data => setMonitorias(data))
+      .catch(err => console.error(err));
+  }, []);
 
-  const filtradas = todasMonitorias.filter(m =>
+  const filtradas = monitorias.filter(m =>
     m.disciplina.toLowerCase().includes(busca.toLowerCase())
   );
 
   return (
     <PageContainer>
       <img src={logo} alt="Logo Mentoria UFMA" className="logo-fixa" />
-
       <h2 className="titulo">Monitorias Disponíveis</h2>
 
       <SearchBox value={busca} onChange={(e) => setBusca(e.target.value)} />
-
       <MonitoriaList lista={filtradas} />
 
-      <button className="btn-avancar" onClick={() => navigate('/home-aluno')}>Avançar</button>
+      <button className="btn-avancar" onClick={() => navigate('/home-aluno', { state: { usuario } })}>
+        Avançar
+      </button>
     </PageContainer>
   );
 }

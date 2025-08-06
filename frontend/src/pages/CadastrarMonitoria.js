@@ -2,6 +2,21 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/CadastrarMonitoria.css';
 
+const diasSemanaOptions = [
+  { label: 'Seg', valor: 'Segunda' },
+  { label: 'Ter', valor: 'Terça' },
+  { label: 'Qua', valor: 'Quarta' },
+  { label: 'Qui', valor: 'Quinta' },
+  { label: 'Sex', valor: 'Sexta' },
+  { label: 'Sáb', valor: 'Sábado' },
+];
+
+const cursosSimulados = [
+  { cursoId: 1, nome: 'Ciência da Computação' }
+];
+
+const MONITOR_ID_LOGADO = 123;
+
 export default function CadastrarMonitoria() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -9,29 +24,84 @@ export default function CadastrarMonitoria() {
   const estaEditando = location.pathname.includes('editar-monitoria');
   const dadosSessao = location.state?.sessao || {};
 
-  const [modoEdicao, setModoEdicao] = useState(!estaEditando); // já liberado se for cadastro
+  const [modoEdicao, setModoEdicao] = useState(!estaEditando);
   const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
 
   const [form, setForm] = useState({
-    curso: dadosSessao.curso || '',
-    codigo: dadosSessao.codigo || '',
-    disciplina: dadosSessao.titulo || '',
-    horario1: dadosSessao.horario1 || '09:00',
-    horario2: dadosSessao.horario2 || '10:00',
-    dia: dadosSessao.dia || '',
-    link: dadosSessao.link || '',
-    materiais: dadosSessao.materiais || '',
-    observacoes: dadosSessao.observacoes || ''
+    cursoId: dadosSessao.cursoId || '',
+    codigoDisciplina: dadosSessao.codigoDisciplina || '',
+    disciplina: dadosSessao.disciplina || '',
+    diasDaSemana: dadosSessao.diasDaSemana
+      ? dadosSessao.diasDaSemana.split(',').map((d) => d.trim())
+      : [],
+    // Garante o padrão "HH:mm:ss" para o backend
+    horario: dadosSessao.horario
+      ? (dadosSessao.horario.length === 5 ? dadosSessao.horario + ':00' : dadosSessao.horario)
+      : '09:00:00',
+    linkSalaVirtual: dadosSessao.linkSalaVirtual || '',
+    observacoes: dadosSessao.observacoes || '',
   });
 
+  const bloqueado = estaEditando && !modoEdicao;
+
+  function toggleDia(dia) {
+    if (bloqueado) return;
+    setForm((prev) => {
+      const dias = prev.diasDaSemana.includes(dia)
+        ? prev.diasDaSemana.filter((d) => d !== dia)
+        : [...prev.diasDaSemana, dia];
+      return { ...prev, diasDaSemana: dias };
+    });
+  }
+
   const handleChange = (campo, valor) => {
+    if (bloqueado) return;
     setForm((prev) => ({ ...prev, [campo]: valor }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Dados salvos:', form);
-    setMostrarConfirmacao(true);
+
+    if (form.diasDaSemana.length === 0) {
+      alert('Selecione pelo menos um dia da semana.');
+      return;
+    }
+
+    // Ajusta horário para o formato "HH:mm:ss"
+    const horarioFormatado = form.horario.length === 5 ? form.horario + ':00' : form.horario;
+
+    const payload = {
+      disciplina: form.disciplina,
+      codigoDisciplina: form.codigoDisciplina,
+      diasDaSemana: form.diasDaSemana.join(', '),
+      horario: horarioFormatado,
+      linkSalaVirtual: form.linkSalaVirtual,
+      observacoes: form.observacoes,
+      monitorId: MONITOR_ID_LOGADO,
+      cursoId: Number(form.cursoId),
+    };
+
+    try {
+      const url = estaEditando
+        ? `/api/monitorias/${dadosSessao.monitoriaId}`
+        : '/api/monitorias';
+      const method = estaEditando ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorMsg = await response.text();
+        throw new Error(errorMsg);
+      }
+
+      setMostrarConfirmacao(true);
+    } catch (error) {
+      alert('Erro ao salvar monitoria: ' + error.message);
+    }
   };
 
   const handleConfirmar = () => {
@@ -39,11 +109,9 @@ export default function CadastrarMonitoria() {
     navigate('/home-monitor', { replace: true });
   };
 
-  const bloqueado = estaEditando && !modoEdicao;
-
   return (
     <div className="content">
-      <div className="voltar-home" onClick={() => navigate(-1)}>
+      <div className="voltar-home" onClick={() => navigate(-1)} style={{ cursor: 'pointer' }}>
         <img
           src="https://img.icons8.com/ios-filled/24/03bcd3/left.png"
           alt="Voltar"
@@ -63,17 +131,17 @@ export default function CadastrarMonitoria() {
         <div>
           <label>Curso</label>
           <select
-            value={form.curso}
-            onChange={(e) => handleChange('curso', e.target.value)}
+            value={form.cursoId}
+            onChange={(e) => handleChange('cursoId', e.target.value)}
             required
             disabled={bloqueado}
           >
-            <option>Selecione</option>
-            <option>Ciência da Computação</option>
-            <option>Engenharia Elétrica</option>
-            <option>Medicina</option>
-            <option>Direito</option>
-            <option>Sociologia</option>
+            <option value="">Selecione</option>
+            {cursosSimulados.map(({ cursoId, nome }) => (
+              <option key={cursoId} value={cursoId}>
+                {nome}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -82,8 +150,8 @@ export default function CadastrarMonitoria() {
           <input
             type="text"
             placeholder="Digite o código da disciplina"
-            value={form.codigo}
-            onChange={(e) => handleChange('codigo', e.target.value)}
+            value={form.codigoDisciplina}
+            onChange={(e) => handleChange('codigoDisciplina', e.target.value)}
             required
             disabled={bloqueado}
           />
@@ -102,31 +170,28 @@ export default function CadastrarMonitoria() {
         </div>
 
         <div>
-          <label>Horário da monitoria</label>
-          <div style={{ display: 'flex', gap: '5px' }}>
-            <input
-              type="time"
-              value={form.horario1}
-              onChange={(e) => handleChange('horario1', e.target.value)}
-              required
-              disabled={bloqueado}
-            />
-            <input
-              type="time"
-              value={form.horario2}
-              onChange={(e) => handleChange('horario2', e.target.value)}
-              required
-              disabled={bloqueado}
-            />
+          <label>Dias da semana</label>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            {diasSemanaOptions.map(({ label, valor }) => (
+              <label key={valor} style={{ userSelect: 'none' }}>
+                <input
+                  type="checkbox"
+                  checked={form.diasDaSemana.includes(valor)}
+                  onChange={() => toggleDia(valor)}
+                  disabled={bloqueado}
+                />
+                {label}
+              </label>
+            ))}
           </div>
         </div>
 
         <div>
-          <label>Dia(s) da monitoria</label>
+          <label>Horário da monitoria</label>
           <input
-            type="date"
-            value={form.dia}
-            onChange={(e) => handleChange('dia', e.target.value)}
+            type="time"
+            value={form.horario.slice(0, 5)} // mostra só HH:mm no input
+            onChange={(e) => handleChange('horario', e.target.value)}
             required
             disabled={bloqueado}
           />
@@ -137,31 +202,20 @@ export default function CadastrarMonitoria() {
           <input
             type="url"
             placeholder="Digite o link"
-            value={form.link}
-            onChange={(e) => handleChange('link', e.target.value)}
-            required
+            value={form.linkSalaVirtual}
+            onChange={(e) => handleChange('linkSalaVirtual', e.target.value)}
             disabled={bloqueado}
           />
         </div>
 
         <div className="material-box full-width">
-          <label>Materiais disponíveis</label>
+          <label>Materiais disponíveis (opcional)</label>
           <textarea
             rows="3"
-            value={form.materiais}
-            onChange={(e) => handleChange('materiais', e.target.value)}
-            disabled={bloqueado}
-          />
-        </div>
-
-        <div className="full-width">
-          <label>Observações</label>
-          <textarea
-            rows="3"
-            placeholder="Digite a descrição"
             value={form.observacoes}
             onChange={(e) => handleChange('observacoes', e.target.value)}
             disabled={bloqueado}
+            placeholder="Digite observações ou materiais"
           />
         </div>
 
@@ -170,7 +224,11 @@ export default function CadastrarMonitoria() {
             <button id="bt" type="submit">
               {estaEditando ? 'Salvar alterações' : 'Cadastrar nova monitoria'}
             </button>
-            <button id="bt2" type="button" onClick={() => navigate('/home-monitor')}>
+            <button
+              id="bt2"
+              type="button"
+              onClick={() => navigate('/home-monitor')}
+            >
               Cancelar
             </button>
           </div>
@@ -186,7 +244,9 @@ export default function CadastrarMonitoria() {
               style={{ width: '50px', marginBottom: '15px' }}
             />
             <p>
-              {estaEditando ? 'Alterações salvas com sucesso!' : 'Monitoria cadastrada com sucesso!'}
+              {estaEditando
+                ? 'Alterações salvas com sucesso!'
+                : 'Monitoria cadastrada com sucesso!'}
             </p>
             <button id="bt3" onClick={handleConfirmar}>
               OK

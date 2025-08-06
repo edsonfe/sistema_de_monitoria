@@ -7,15 +7,14 @@ export default function Cadastro() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
-  // Estados para os campos do formulário
+  // Estados do formulário
   const [nome, setNome] = useState('');
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
-  const [curso, setCurso] = useState('');
+  const [cursoId, setCursoId] = useState('');
   const [matricula, setMatricula] = useState('');
-  const [cadeiras, setCadeiras] = useState([]);
-  const [tipoUsuario] = useState('');
+  const [tipoUsuario, setTipoUsuario] = useState('ALUNO'); // começa como ALUNO
   const [codigoDeValidacao, setCodigoDeValidacao] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmaSenha, setConfirmaSenha] = useState('');
@@ -34,23 +33,28 @@ export default function Cadastro() {
       celular,
       email,
       dataNascimento,
-      curso,
+      cursoId: Number(cursoId),
       matricula,
-      cadeiras,
       senha,
       tipoUsuario,
-      codigoDeValidacao
     };
 
     try {
-      const response = await fetch('http://localhost:8080/api/usuarios', {
+      // Envia tokenMonitor apenas se for monitor
+      let url = 'http://localhost:8080/api/usuarios';
+      if (tipoUsuario === 'MONITOR' && codigoDeValidacao.trim()) {
+        url += `?tokenMonitor=${encodeURIComponent(codigoDeValidacao)}`;
+      }
+
+      const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dados),
       });
 
       if (response.ok) {
-        navigate('/monitorias');
+        alert('Cadastro realizado com sucesso!');
+        navigate('/'); // volta para login
       } else {
         const erro = await response.text();
         alert('Erro ao cadastrar: ' + erro);
@@ -70,13 +74,13 @@ export default function Cadastro() {
               {[1, 2, 3].map((n) => (
                 <div className="step" key={n}>
                   <div className={`circle ${step === n ? 'active' : ''}`}>{n}</div>
-                  <span>{['Inform. pessoais', 'Preferências', 'Senha'][n - 1]}</span>
+                  <span>{['Inform. pessoais', 'Curso e tipo', 'Senha'][n - 1]}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Passo 1 */}
+          {/* Passo 1 - Dados pessoais */}
           {step === 1 && (
             <div className="form-step active">
               <label>Nome</label>
@@ -102,45 +106,30 @@ export default function Cadastro() {
             </div>
           )}
 
-          {/* Passo 2 */}
+          {/* Passo 2 - Curso e tipo */}
           {step === 2 && (
             <div className="form-step active">
               <label>Curso</label>
-              <select value={curso} onChange={e => setCurso(e.target.value)} required>
+              <select value={cursoId} onChange={e => setCursoId(e.target.value)} required>
                 <option disabled value="">Selecione o curso</option>
-                <option>Ciência da computação</option>
+                <option value={1}>Ciência da Computação</option>
               </select>
 
               <label>Matrícula</label>
               <input type="text" value={matricula} onChange={e => setMatricula(e.target.value)} required />
 
-              <label>Cadeiras matriculado</label>
-              <div className="cadeiras-input">
-                <input
-                  type="text"
-                  placeholder="Digite o nome da cadeira e pressione Enter"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && e.target.value.trim()) {
-                      e.preventDefault();
-                      setCadeiras([...cadeiras, e.target.value.trim()]);
-                      e.target.value = '';
-                    }
-                  }}
-                />
-                <ul className="cadeiras-lista">
-                  {cadeiras.map((c, index) => (
-                    <li key={index}>
-                      {c}
-                      <button type="button" onClick={() => {
-                        setCadeiras(cadeiras.filter((_, i) => i !== index));
-                      }}>✖</button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <label>Tipo de Usuário</label>
+              <select value={tipoUsuario} onChange={e => setTipoUsuario(e.target.value)} required>
+                <option value="ALUNO">Aluno</option>
+                <option value="MONITOR">Monitor</option>
+              </select>
 
-              <label>Código de Validação</label>
-              <input type="text" value={codigoDeValidacao} onChange={e => setCodigoDeValidacao(e.target.value)} required />
+              {tipoUsuario === 'MONITOR' && (
+                <>
+                  <label>Código de Validação</label>
+                  <input type="text" value={codigoDeValidacao} onChange={e => setCodigoDeValidacao(e.target.value)} />
+                </>
+              )}
 
               <div className="btns">
                 <button type="button" className="btn" onClick={voltar}>
@@ -153,7 +142,7 @@ export default function Cadastro() {
             </div>
           )}
 
-          {/* Passo 3 */}
+          {/* Passo 3 - Senha */}
           {step === 3 && (
             <div className="form-step active">
               <label>Senha</label>
