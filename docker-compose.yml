@@ -1,11 +1,9 @@
-version: "3.9"
-
 networks:
   monitoria_net:
 
 volumes:
   db_data:
-    external: true # usa volume existente, não cria novo
+    external: true
 
 services:
 
@@ -21,6 +19,7 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./database/monitoria_dump.sql:/docker-entrypoint-initdb.d/monitoria_dump.sql
     networks:
       - monitoria_net
 
@@ -55,3 +54,5 @@ services:
       REACT_APP_API_URL: http://backend:8080
     networks:
       - monitoria_net
+
+  
