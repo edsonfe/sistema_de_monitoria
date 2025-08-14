@@ -1,0 +1,68 @@
+.avaliacao {
+  padding: 30px;
+  max-width: 600px;
+  margin: 0 auto; /* gcentralização do bloco inteiro */
+  text-align: left; /* alinhamento à esquerda pra h2 e p */
+}
+
+.content.avaliacao h2{
+  font-size: 22px;
+  margin-bottom: 5px;
+
+}
+
+p {
+  margin-bottom: 16px;
+  margin-top: 0;
+  color: #444;
+}
+
+.avaliacao h2,
+.avaliacao p {
+  margin: 0 0 10px 0;
+  text-align: inherit; /* pega do container pai */
+}
+
+
+.estrelas {
+  display: flex;
+  gap: 8px;
+  font-size: 30px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.estrela {
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+.estrela.ativa {
+  color: #f1c40f;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  resize: none;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.btn-enviar {
+  background-color: #03bcd3;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.btn-enviar:hover {
+  background-color: #029db2;
+}
