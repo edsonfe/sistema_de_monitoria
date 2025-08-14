@@ -18,11 +18,13 @@ import CadastrarMonitoria from '../pages/CadastrarMonitoria';
 import SessoesCadastradas from '../pages/SessaoMonitor';
 import SessaoDetalheMonitor from '../pages/SessaoDetalheMonitor';
 import MateriaisApoioMonitor from '../pages/MateriaisApoioMonitor';
+import EditarMonitoria from '../pages/EditarMonitoria';
+
 
 export default function AppRoutes() {
   return (
     <Routes>
-      
+
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/cadastro" element={<Cadastro />} />
@@ -30,22 +32,27 @@ export default function AppRoutes() {
       <Route path="/home-aluno" element={<HomeAluno />} />
       <Route path="/home-monitor" element={<HomeMonitor />} />
       <Route path='/perfil' element={<Perfil />} />
-      <Route path='/buscar-monitoria' element={<BuscarMonitoria/>} />
-      <Route path='/detalhe-monitoria/:id' element={<DetalheMonitoria/>} />
-      <Route path='/sessao-aluno' element={<SessaoAluno/>} />
+      <Route path='/buscar-monitoria' element={<BuscarMonitoria />} />
+      <Route path='/detalhe-monitoria/:id' element={<DetalheMonitoria />} />
+      <Route path='/sessao-aluno' element={<SessaoAluno />} />
       <Route path='/sessao-detalhe' element={<SessaoDetalheAluno />} />
-      < Route path='/avaliacao' element={<AvaliacaoSessao/>} />
-      < Route path='/chat' element={<Chat/>}/>
-      < Route path='/materiais' element={<MateriaisApoio/>}/>
-      < Route path='/sessao-monitor' element={<SessaoMonitor/>}/>
-      < Route path='/cadastrar' element={<CadastrarMonitoria/>}/>
-      < Route path='/cadastradas' element={<SessoesCadastradas/>}/>
-      < Route path='/sessao-detalhe-monitor' element={<SessaoDetalheMonitor/>}/>
-      <Route path="/editar-monitoria" element={<CadastrarMonitoria />} />
-      <Route path="/material-apoio" element={<MateriaisApoioMonitor />} />
-      
+      < Route path='/avaliacao' element={<AvaliacaoSessao />} />
+      < Route path='/chat' element={<Chat />} />
+      <Route path="/chat/:sessaoId" element={<Chat />} />
+      < Route path='/materiais' element={<MateriaisApoio />} />
+      < Route path='/sessao-monitor' element={<SessaoMonitor />} />
+      < Route path='/cadastrar' element={<CadastrarMonitoria />} />
+      < Route path='/cadastradas' element={<SessoesCadastradas />} />
+      < Route path='/sessao-detalhe-monitor' element={<SessaoDetalheMonitor />} />
+      <Route path="/editar-monitoria" element={<EditarMonitoria />} />
+      <Route path="/editar-monitoria/:id" element={<EditarMonitoria />} />  {/* Edição via ID */}
 
+      <Route path="/monitorias/editar" element={<CadastrarMonitoria />} />
+
+      <Route path="/material-apoio" element={<MateriaisApoioMonitor />} />
+      <Route path="/materiais/:sessaoId" element={<MateriaisApoioMonitor />} />
+      
     </Routes>
-    
+
   );
 }

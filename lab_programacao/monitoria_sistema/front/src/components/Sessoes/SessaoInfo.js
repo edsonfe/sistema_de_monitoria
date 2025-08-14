@@ -6,7 +6,7 @@ export default function SessaoInfo({ titulo, monitor, horarios }) {
         <strong>Monitor:</strong> {monitor}
       </p>
       <ul className="horarios">
-        {horarios.map((horario, index) => (
+        {(horarios || []).map((horario, index) => (
           <li key={index}>{horario}</li>
         ))}
       </ul>

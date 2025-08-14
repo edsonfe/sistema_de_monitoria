@@ -69,13 +69,20 @@ export default function SessaoAluno() {
             });
 
             return (
-              <div className="card-sessao" key={sessao.sessaoId}>
+              <div
+                className="card-sessao"
+                key={sessao.sessaoId}
+                style={{ cursor: 'pointer' }}
+                onClick={() =>
+                  navigate('/sessao-detalhe', { state: { sessao } })
+                }
+              >
                 <h3>{sessao.disciplinaMonitoria}</h3>
                 <p>
                   <strong>Data:</strong> {dataFormatada} às {horaFormatada}
                 </p>
                 <p>
-                  <strong>Monitor:</strong> {sessao.alunoNome || "Monitor"}
+                  <strong>Monitor:</strong> {sessao.monitorNome || "Monitor"}
                 </p>
                 {sessao.linkSalaVirtual && (
                   <a
@@ -83,6 +90,7 @@ export default function SessaoAluno() {
                     href={sessao.linkSalaVirtual}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()} // evita disparar o onClick do card
                   >
                     Entrar na Sala Virtual
                   </a>
@@ -90,6 +98,7 @@ export default function SessaoAluno() {
               </div>
             );
           })}
+
         </div>
       )}
     </div>

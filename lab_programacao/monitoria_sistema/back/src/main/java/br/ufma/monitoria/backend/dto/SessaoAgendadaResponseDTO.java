@@ -22,5 +22,7 @@ public class SessaoAgendadaResponseDTO {
     private String alunoNome;
     private Long monitoriaId;
     private String disciplinaMonitoria;
-    
+    private String monitorNome;
+    private String linkSalaVirtual;
+
 }

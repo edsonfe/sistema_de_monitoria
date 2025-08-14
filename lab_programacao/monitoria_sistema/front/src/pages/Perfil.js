@@ -84,55 +84,68 @@ export default function Perfil() {
   if (carregando) return <p>Carregando...</p>;
 
   return (
-    <div className="content perfil">
+    <div className="content perfil-card">
       <div className="voltar-home" onClick={() => navigate(-1, { replace: true })}>
         <img src="https://img.icons8.com/ios-filled/24/03bcd3/left.png" alt="Voltar" />
         <span>Voltar</span>
       </div>
 
       <h2>Informações do Usuário</h2>
-      {mensagem && <p>{mensagem}</p>}
+      {mensagem && <p className="mensagem">{mensagem}</p>}
 
       <form onSubmit={handleSubmit}>
-        <label>Nome</label>
-        <input
-          type="text"
-          name="nome"
-          value={dados.nome}
-          onChange={handleChange}
-          disabled={!editando}
-        />
+        <div className="form-group">
+          <label>Nome</label>
+          <input
+            type="text"
+            name="nome"
+            value={dados.nome}
+            onChange={handleChange}
+            disabled={!editando}
+          />
+        </div>
 
-        <label>Telefone</label>
-        <input
-          type="text"
-          name="telefone"
-          value={dados.telefone}
-          onChange={handleChange}
-          disabled={!editando}
-        />
+        <div className="form-group">
+          <label>Telefone</label>
+          <input
+            type="text"
+            name="telefone"
+            value={dados.telefone}
+            onChange={handleChange}
+            disabled={!editando}
+          />
+        </div>
 
-        <label>E-mail</label>
-        <input type="email" value={dados.email} disabled />
+        <div className="form-group">
+          <label>E-mail</label>
+          <input type="email" value={dados.email} disabled />
+        </div>
 
-        <label>Curso</label>
-        <input type="text" value={dados.curso} disabled />
+        <div className="form-group">
+          <label>Curso</label>
+          <input type="text" value={dados.curso} disabled />
+        </div>
 
-        <label>Matrícula</label>
-        <input type="text" value={dados.matricula} disabled />
+        <div className="form-group">
+          <label>Matrícula</label>
+          <input type="text" value={dados.matricula} disabled />
+        </div>
 
-        <label>Tipo de Usuário</label>
-        <input type="text" value={dados.tipo} disabled />
+        <div className="form-group">
+          <label>Tipo de Usuário</label>
+          <input type="text" value={dados.tipo} disabled />
+        </div>
 
         <div className="botoes">
           {!editando && (
-            <button type="button" onClick={() => setEditando(true)}>
+            <button type="button" className="btn-edit" onClick={() => setEditando(true)}>
               Editar
             </button>
           )}
-          {editando && <button type="submit">Salvar</button>}
+          {editando && <button type="submit" className="btn-save">Salvar</button>}
         </div>
       </form>
     </div>
+
   );
 }

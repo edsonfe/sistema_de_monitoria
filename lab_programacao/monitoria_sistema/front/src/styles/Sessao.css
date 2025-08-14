@@ -77,71 +77,67 @@ h2 {
 }
 
 .card-sessao {
-  background: white;
+  background: #fefefe;
+  margin-bottom: 12px;
+  padding: 15px;
   border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.card-sessao h3 {
-  margin: 0 0 8px;
-  color: #03bcd3;
-}
-
-.card-sessao p {
-  margin: 4px 0;
-}
-
-.btn-entrar {
-  display: inline-block;
-  margin-top: 8px;
-  padding: 6px 12px;
-  background: #03bcd3;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-}
-
-.btn-entrar:hover {
-  background: #0292a5;
-}
-/*
-.lista-sessoes {
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 20px;
+  transition: background 0.3s ease;
 }
 
-.card-sessao {
-  background: white;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+.card-sessao:hover {
+  background: #e0f7fa;
 }
 
-.card-sessao h3 {
-  margin: 0 0 8px;
-  color: #03bcd3;
+.status-aguardando_aprovacao {
+  border-left: 5px solid #ff9800;
 }
 
-.card-sessao p {
-  margin: 4px 0;
+.status-deferida {
+  border-left: 5px solid #4caf50;
 }
 
-.btn-entrar {
-  display: inline-block;
-  margin-top: 8px;
+.status-recusada {
+  border-left: 5px solid #f44336;
+  opacity: 0.7;
+}
+
+.acoes-status {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn-deferir, .btn-recusar {
   padding: 6px 12px;
-  background: #03bcd3;
-  color: white;
+  font-weight: 600;
   border-radius: 4px;
-  text-decoration: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.btn-entrar:hover {
-  background: #0292a5;
+.btn-deferir {
+  background-color: #4caf50;
 }
 
+.btn-deferir:hover:not(:disabled) {
+  background-color: #45a045;
+}
 
-*/
+.btn-recusar {
+  background-color: #f44336;
+}
+
+.btn-recusar:hover:not(:disabled) {
+  background-color: #d32f2f;
+}
+
+.btn-deferir:disabled,
+.btn-recusar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

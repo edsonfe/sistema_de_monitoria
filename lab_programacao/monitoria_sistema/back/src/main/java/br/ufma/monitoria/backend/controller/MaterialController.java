@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/materiais")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class MaterialController {
 
     private final MaterialService materialService;
@@ -47,6 +49,7 @@ public class MaterialController {
             return ResponseEntity.ok(toResponseDTO(salvo));
 
         } catch (EntityNotFoundException e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body("Sessão não encontrada para envio do material.");
         }
     }

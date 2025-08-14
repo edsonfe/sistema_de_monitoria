@@ -1,3 +1,4 @@
+// src/pages/Login.js
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,13 +9,16 @@ import StepLoginForm from '../components/AuthSteps/StepLoginForm';
 
 import '../styles/Login.css';
 
+const ROLE_ALUNO = 'home-aluno';
+const ROLE_MONITOR = 'home-monitor';
+
 export default function Login() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState('');
   const navigate = useNavigate();
 
-  // 🔹 Limpa session antiga ao abrir a tela de login
   useEffect(() => {
+    // Limpa sessão anterior ao entrar na tela de login
     localStorage.removeItem('usuarioId');
     localStorage.removeItem('tipoUsuario');
     localStorage.removeItem('usuarioNome');
@@ -26,9 +30,9 @@ export default function Login() {
   };
 
   const handleEntrar = () => {
-    if (role === 'home-aluno') {
+    if (role === ROLE_ALUNO) {
       navigate('/home-aluno');
-    } else if (role === 'home-monitor') {
+    } else if (role === ROLE_MONITOR) {
       navigate('/home-monitor');
     } else {
       alert('Erro: Nenhuma opção selecionada.');

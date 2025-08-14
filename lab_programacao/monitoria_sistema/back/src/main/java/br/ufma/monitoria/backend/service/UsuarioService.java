@@ -35,15 +35,6 @@ public class UsuarioService {
     return usuarioRepository.save(usuario);
   }
 
-  /*
-   * public Usuario login(String email, String senha) {
-   * return usuarioRepository.findByEmail(email)
-   * .filter(u -> u.getSenha().equals(senha))
-   * .orElseThrow(() -> new
-   * IllegalArgumentException("E-mail ou senha inválidos"));
-   * }
-   */
-
   public Usuario loginComTipo(String email, String senha, TipoUsuario tipoUsuario) {
     Usuario usuario = usuarioRepository.findByEmail(email)
         .orElseThrow(() -> new IllegalArgumentException("E-mail ou senha inválidos"));
@@ -60,10 +51,6 @@ public class UsuarioService {
     // Nenhuma validação extra para token no login
     return usuario;
   }
-
-
-
-  
 
   public Usuario buscarPorId(Long id) {
     return usuarioRepository.findById(id)

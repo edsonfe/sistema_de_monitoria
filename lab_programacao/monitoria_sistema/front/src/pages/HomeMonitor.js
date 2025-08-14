@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Sidebar from '../components/HomeMonitor/Sidebar';
 import Topbar from '../components/HomeMonitor/Topbar';
@@ -6,10 +6,13 @@ import CardsPainel from '../components/HomeMonitor/CardsPainel';
 import '../styles/Home.css';
 
 export default function HomeMonitor() {
-  const [usuario] = useState({
-    nome: 'Edson',
-    tipo: 'monitor'
-  });
+  const [usuario, setUsuario] = useState({ nome: '', tipo: 'monitor' });
+
+  useEffect(() => {
+    const nomeCompleto = localStorage.getItem('usuarioNome') || '';
+    const primeiroNome = nomeCompleto.split(' ')[0] || '';
+    setUsuario({ nome: primeiroNome, tipo: 'monitor' }); // ou 'aluno' no outro componente
+  }, []);
 
   return (
     <div className="home-container">

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +24,11 @@ import br.ufma.monitoria.backend.service.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+
 @RestController
 @RequestMapping("/api/notificacoes")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class NotificacaoController {
 
     private final NotificacaoService notificacaoService;

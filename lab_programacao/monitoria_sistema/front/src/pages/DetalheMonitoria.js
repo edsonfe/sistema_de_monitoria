@@ -37,7 +37,7 @@ export default function DetalheMonitoria() {
       const payload = {
         alunoId: Number(alunoId),
         monitoriaId: monitoria.monitoriaId,
-        data: new Date().toISOString(), // aqui você pode solicitar a data escolhida pelo aluno
+        data: new Date().toISOString(), 
         status: 'AGUARDANDO_APROVACAO' // status inicial
       };
 
@@ -82,8 +82,7 @@ export default function DetalheMonitoria() {
           <strong>Horários disponíveis:</strong>
         </p>
         <ul>
-          {/* Caso tenha lista de horários, use monitoria.diasDaSemana + monitoria.horario, 
-              ajuste aqui conforme os dados retornados */}
+          {/* Caso tenha lista de horários, use monitoria.diasDaSemana + monitoria.horario, */}
           <li>{monitoria.diasDaSemana} • {monitoria.horario}</li>
         </ul>
       </div>

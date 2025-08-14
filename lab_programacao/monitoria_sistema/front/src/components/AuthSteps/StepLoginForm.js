@@ -1,21 +1,26 @@
+// src/components/AuthSteps/StepLoginForm.js
 import { useState } from 'react';
+
+const ROLE_TO_TIPO_USUARIO = {
+  'home-aluno': 'ALUNO',
+  'home-monitor': 'MONITOR',
+};
 
 export default function StepLoginForm({ onEntrar, role }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const mapRoleToTipoUsuario = (role) => {
-    if (role === 'home-aluno') return 'ALUNO';
-    if (role === 'home-monitor') return 'MONITOR';
-    return '';
-  };
-
   const handleLogin = () => {
     if (!role) {
       alert('Selecione o tipo de usuário antes de entrar.');
       return;
     }
+    if (!email || !senha) {
+      alert('Preencha e-mail e senha.');
+      return;
+    }
+
     setLoading(true);
 
     fetch('http://localhost:8080/api/usuarios/login', {
@@ -24,7 +29,7 @@ export default function StepLoginForm({ onEntrar, role }) {
       body: JSON.stringify({
         email,
         senha,
-        tipoUsuario: mapRoleToTipoUsuario(role),
+        tipoUsuario: ROLE_TO_TIPO_USUARIO[role] || '',
       }),
     })
       .then(async (res) => {
@@ -36,14 +41,11 @@ export default function StepLoginForm({ onEntrar, role }) {
         return res.json();
       })
       .then((data) => {
-        console.log('Usuário logado:', data);
-
-        // 🔹 Salva dados importantes no localStorage
+        // Salva dados do usuário no localStorage
         localStorage.setItem('usuarioId', data.usuarioId);
         localStorage.setItem('tipoUsuario', data.tipoUsuario);
         localStorage.setItem('usuarioNome', data.nome);
 
-        // Redireciona
         onEntrar();
       })
       .catch((error) => {

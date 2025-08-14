@@ -22,9 +22,18 @@ export default function Cadastro() {
   const avancar = () => setStep((s) => Math.min(s + 1, 3));
   const voltar = () => setStep((s) => Math.max(s - 1, 1));
 
+  // trecho do método finalizar com validações extras
   const finalizar = async () => {
     if (senha !== confirmaSenha) {
       alert('As senhas não coincidem!');
+      return;
+    }
+    if (!nome || !email || !dataNascimento || !cursoId || !matricula || !senha) {
+      alert('Preencha todos os campos obrigatórios!');
+      return;
+    }
+    if (tipoUsuario === 'MONITOR' && !codigoDeValidacao.trim()) {
+      alert('Digite o código de validação para Monitor.');
       return;
     }
 
@@ -40,9 +49,8 @@ export default function Cadastro() {
     };
 
     try {
-      // Envia tokenMonitor apenas se for monitor
       let url = 'http://localhost:8080/api/usuarios';
-      if (tipoUsuario === 'MONITOR' && codigoDeValidacao.trim()) {
+      if (tipoUsuario === 'MONITOR') {
         url += `?tokenMonitor=${encodeURIComponent(codigoDeValidacao)}`;
       }
 
@@ -54,7 +62,7 @@ export default function Cadastro() {
 
       if (response.ok) {
         alert('Cadastro realizado com sucesso!');
-        navigate('/'); // volta para login
+        navigate('/');
       } else {
         const erro = await response.text();
         alert('Erro ao cadastrar: ' + erro);
@@ -63,6 +71,7 @@ export default function Cadastro() {
       alert('Erro ao conectar com o servidor: ' + error.message);
     }
   };
+
 
   return (
     <div className="container">
