@@ -21,9 +21,10 @@ public class BackendApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**") // Todas as rotas da API
+                registry.addMapping("/**") // Todas as rotas da API
                         .allowedOrigins("http://localhost:3000") // Endereço do front em dev
                         .allowedMethods("GET", "POST", "PUT", "DELETE") // Métodos permitidos
+                        .allowedHeaders("*")
                         .allowCredentials(true); // Se for precisar de cookies/sessão
             }
         };

@@ -1,0 +1,57 @@
+version: "3.9"
+
+networks:
+  monitoria_net:
+
+volumes:
+  db_data:
+    external: true # usa volume existente, não cria novo
+
+services:
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: monitoria_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: davi.sodre
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - monitoria_net
+
+  backend:
+    build:
+      context: ./back
+      dockerfile: dockerfile
+    container_name: backend_app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/monitoria_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: davi.sodre
+    ports:
+      - "8080:8080"
+    networks:
+      - monitoria_net
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: dockerfile
+    container_name: frontend_app
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://backend:8080
+    networks:
+      - monitoria_net
