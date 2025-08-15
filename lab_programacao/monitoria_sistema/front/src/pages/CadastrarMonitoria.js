@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MonitoriaForm from './MonitoriaForm';
-
 import '../styles/CadastrarMonitoria.css';
 
 const BASE_URL = 'http://localhost:8080';
@@ -68,7 +67,7 @@ export default function CadastrarMonitoria() {
     <div className="content">
       <h2>Cadastrar nova monitoria</h2>
       {loadingCursos ? <p>Carregando cursos...</p> :
-        erroCursos ? <p style={{ color: 'red' }}>Erro: {erroCursos}</p> :
+        erroCursos ? <p className="mensagem-erro">Erro: {erroCursos}</p> :
         <MonitoriaForm
           formInicial={formInicial}
           cursos={cursos}
@@ -77,10 +76,13 @@ export default function CadastrarMonitoria() {
           onCancelar={() => navigate('/home-monitor')}
         />
       }
+
       {mostrarConfirmacao &&
         <div className="confirm-box">
-          <p>Monitoria cadastrada com sucesso!</p>
-          <button onClick={handleConfirmar}>OK</button>
+          <div className="confirm-content">
+            <p>Monitoria cadastrada com sucesso!</p>
+            <button onClick={handleConfirmar}>OK</button>
+          </div>
         </div>
       }
     </div>

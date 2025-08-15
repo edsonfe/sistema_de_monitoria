@@ -12,10 +12,7 @@ const diasSemanaOptions = [
 export default function MonitoriaForm({ formInicial, cursos, bloqueado, onSubmit, onCancelar }) {
   const [form, setForm] = useState(formInicial);
 
-  // Atualiza o estado do formulário sempre que formInicial mudar
-  useEffect(() => {
-    setForm(formInicial);
-  }, [formInicial]);
+  useEffect(() => { setForm(formInicial); }, [formInicial]);
 
   function handleChange(campo, valor) {
     if (bloqueado) return;
@@ -78,9 +75,9 @@ export default function MonitoriaForm({ formInicial, cursos, bloqueado, onSubmit
         />
       </div>
 
-      <div>
+      <div className="full-width">
         <label>Dias da semana</label>
-        <div style={{ display: 'flex', gap: 10 }}>
+        <div className="checkbox-group">
           {diasSemanaOptions.map(({ label, valor }) => (
             <label key={valor}>
               <input
@@ -116,7 +113,7 @@ export default function MonitoriaForm({ formInicial, cursos, bloqueado, onSubmit
         />
       </div>
 
-      <div>
+      <div className="full-width">
         <label>Observações</label>
         <textarea
           rows={3}
@@ -127,8 +124,8 @@ export default function MonitoriaForm({ formInicial, cursos, bloqueado, onSubmit
       </div>
 
       <div className="botoes">
-        {!bloqueado && <button type="submit">Salvar</button>}
-        <button type="button" onClick={onCancelar}>Cancelar</button>
+        {!bloqueado && <button type="submit" className="btn-salvar">Salvar</button>}
+        <button type="button" className="btn-cancelar" onClick={onCancelar}>Cancelar</button>
       </div>
     </form>
   );

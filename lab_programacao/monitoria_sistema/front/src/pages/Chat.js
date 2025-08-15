@@ -123,9 +123,9 @@ export default function Chat() {
           onKeyDown={e => e.key === 'Enter' && enviarMensagem()}
         />
         <button type="button" className="btn enviar" onClick={enviarMensagem}>
-          Enviar
+          <img src="https://img.icons8.com/ios-glyphs/24/ffffff/filled-sent.png" alt="Enviar" />
         </button>
       </div>
     </div>
-  );
+      );
 }

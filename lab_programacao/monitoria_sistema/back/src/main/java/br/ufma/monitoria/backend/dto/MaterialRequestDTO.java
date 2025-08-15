@@ -1,5 +1,6 @@
 package br.ufma.monitoria.backend.dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,4 +17,6 @@ public class MaterialRequestDTO {
     private String titulo;
     private String link;
     private Long sessaoId; // Sessão à qual o material pertence
+    @Column(length = 255)
+    private String arquivo;
 }

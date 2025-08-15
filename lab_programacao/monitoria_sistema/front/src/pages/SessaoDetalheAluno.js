@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import SessaoInfo from '../components/Sessoes/SessaoInfo';
@@ -15,10 +15,12 @@ export default function SessaoDetalhes() {
   const navigate = useNavigate();
   const { sessao } = location.state || {};
 
-  if (!sessao) {
-    navigate('/sessao-aluno', { replace: true });
-    return null; // evita renderização com dados inválidos
-  }
+  // Redirecionamento seguro
+  useEffect(() => {
+    if (!sessao) navigate('/sessao-aluno', { replace: true });
+  }, [sessao, navigate]);
+
+  if (!sessao) return null; // evita renderização com dados inválidos
 
   async function excluirSessao(sessaoId) {
     try {
@@ -36,36 +38,41 @@ export default function SessaoDetalhes() {
     }
   }
 
-  const handleExcluirConfirmado = () => {
-    excluirSessao(sessao.sessaoId);
-  };
-
+  const handleExcluirConfirmado = () => excluirSessao(sessao.sessaoId);
   const handleExcluir = () => setModalVisivel(true);
   const fecharModal = () => {
     setModalVisivel(false);
     setErro(null);
   };
 
+  // padroniza horários como array
+  const horariosArray = Array.isArray(sessao.horarios)
+    ? sessao.horarios
+    : [sessao.horario];
+
   return (
     <div className="content sessao-detalhes">
-      <div className="voltar-home" onClick={() => navigate(-1, { replace: true })} style={{ cursor: 'pointer' }}>
+      <div
+        className="voltar-home"
+        onClick={() => navigate(-1, { replace: true })}
+        style={{ cursor: 'pointer' }}
+      >
         <img src="https://img.icons8.com/ios-filled/24/03bcd3/left.png" alt="Voltar" />
         <span>Voltar</span>
       </div>
 
       <SessaoInfo
         titulo={sessao.titulo || sessao.disciplinaMonitoria}
-        monitor={sessao.monitorNome}  // aqui passa o nome do monitor
-        horarios={sessao.horarios || [sessao.horario]} // adapta caso horários seja um array ou string
+        monitor={sessao.monitorNome}
+        horarios={horariosArray}
       />
       <LinkReuniao link={sessao.linkSalaVirtual || sessao.link} />
-
 
       {erro && <p style={{ color: 'red' }}>Erro: {erro}</p>}
 
       <BotoesAcoes
-        onMateriais={() => navigate('/materiais')}
-        onChat={() => navigate('/chat')}
+        onMateriais={() => navigate('/materiais', { state: { sessaoId: sessao.sessaoId } })}
+        onChat={() => navigate(`/chat/${sessao.sessaoId}`, { state: { sessaoId: sessao.sessaoId } })}
         onPrimario={() => navigate('/avaliacao', { state: { sessaoId: sessao.sessaoId } })}
         onExcluir={handleExcluir}
         tipo="aluno"

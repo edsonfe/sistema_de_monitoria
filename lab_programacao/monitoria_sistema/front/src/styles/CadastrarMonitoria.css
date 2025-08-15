@@ -1,20 +1,17 @@
-/* Container principal */
 .content {
   padding: 30px;
   max-width: 900px;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* Título */
 h2 {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 600;
   margin-bottom: 25px;
-  color: #333;
+  color: #222;
 }
 
-/* Formulário */
 form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -32,29 +29,23 @@ form textarea {
   box-sizing: border-box;
 }
 
-/* Campos que ocupam toda a largura */
 .full-width {
   grid-column: 1 / 3;
 }
 
-/* Caixa para materiais ou botões internos */
-.material-box {
-  position: relative;
+.checkbox-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.material-box button {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  background-color: #00bcd4;
-  color: #fff;
-  cursor: pointer;
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
 }
 
-/* Botões do formulário */
 .botoes {
   grid-column: 1 / 3;
   display: flex;
@@ -72,35 +63,31 @@ form textarea {
   transition: background 0.3s ease;
 }
 
-#bt,
-#bt3 {
+.btn-salvar {
   background-color: #1cb721;
   color: #fff;
 }
 
-#bt:hover,
-#bt3:hover {
+.btn-salvar:hover {
   background-color: #16a51c;
 }
 
-#bt2 {
+.btn-cancelar {
   background-color: #fff;
   color: #000;
   border: 1px solid #000;
 }
 
-#bt2:hover {
+.btn-cancelar:hover {
   background-color: #f0f0f0;
 }
 
 /* Caixa de confirmação */
 .confirm-box {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,7 +101,7 @@ form textarea {
   text-align: center;
   max-width: 400px;
   width: 90%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .confirm-content p {
@@ -137,16 +124,8 @@ form textarea {
   background: #23978f;
 }
 
-/* Checkbox dias da semana */
-.checkbox-group {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.checkbox-group label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+/* Mensagens de erro */
+.mensagem-erro {
+  color: #f44336;
   font-size: 14px;
 }

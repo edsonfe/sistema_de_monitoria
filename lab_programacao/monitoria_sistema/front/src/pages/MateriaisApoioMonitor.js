@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/MateriaisApoioMonitor.css';
 
@@ -6,70 +6,72 @@ export default function MateriaisApoioMonitor() {
   const { state } = useLocation();
   const sessaoId = state?.sessaoId;
   const navigate = useNavigate();
+
+  const arquivoInputRef = useRef();
+
   const [materiais, setMateriais] = useState([]);
   const [form, setForm] = useState({ titulo: '', link: '', arquivo: null });
   const [loading, setLoading] = useState(false);
 
-  const handleInput = (campo, valor) => {
-    setForm(prev => ({ ...prev, [campo]: valor }));
-  };
+  // Atualiza campos do formulário
+  const handleInput = (campo, valor) => setForm(prev => ({ ...prev, [campo]: valor }));
 
+  // Adiciona material à lista temporária
   const adicionarMaterial = () => {
     if (!form.titulo.trim()) {
       alert('Título é obrigatório');
       return;
     }
 
-    // Apenas para controle no front
-    const novoMaterial = {
-      tempId: Date.now(),
-      titulo: form.titulo.trim(),
-      link: form.link.trim() || null,
-      arquivo: form.arquivo ? form.arquivo.name : null
-    };
+    setMateriais(prev => [
+      ...prev,
+      {
+        tempId: Date.now(),
+        titulo: form.titulo.trim(),
+        link: form.link.trim() || null,
+        arquivo: form.arquivo || null,
+      }
+    ]);
 
-    setMateriais(prev => [...prev, novoMaterial]);
     setForm({ titulo: '', link: '', arquivo: null });
+    if (arquivoInputRef.current) arquivoInputRef.current.value = '';
   };
 
-  const removerMaterial = tempId => {
-    setMateriais(prev => prev.filter(m => m.tempId !== tempId));
-  };
+  // Remove material da lista temporária
+  const removerMaterial = tempId => setMateriais(prev => prev.filter(m => m.tempId !== tempId));
 
+  // Salva todos os materiais enviando ao backend
   const salvarTodos = async () => {
-    if (!sessaoId) {
-      alert('Sessão inválida.');
-      return;
-    }
-    if (materiais.length === 0) {
-      alert('Nenhum material para enviar.');
-      return;
-    }
+    if (!sessaoId) return alert('Sessão inválida.');
+    if (materiais.length === 0) return alert('Nenhum material para enviar.');
 
     setLoading(true);
-    try {
-      for (const mat of materiais) {
-        const body = {
-          titulo: mat.titulo,
-          link: mat.link, // pode ser null
-          sessaoId: sessaoId
-        };
 
-        const res = await fetch('http://localhost:8080/api/materiais', {
+    try {
+      const novosMateriais = [];
+
+      for (const mat of materiais) {
+        const formData = new FormData();
+        formData.append('titulo', mat.titulo);
+        formData.append('sessaoId', String(sessaoId));
+        if (mat.link) formData.append('link', mat.link);
+        if (mat.arquivo instanceof File) formData.append('arquivo', mat.arquivo);
+
+        const res = await fetch('http://localhost:8080/api/materiais/upload', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+          body: formData,
         });
 
         if (!res.ok) {
-          let errorMsg = 'Erro ao salvar material';
-          try {
-            const errorData = await res.json();
-            errorMsg = errorData.message || errorData;
-          } catch { }
-          throw new Error(errorMsg);
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData.message || 'Erro ao enviar material');
         }
+
+        const data = await res.json();
+        novosMateriais.push(data); // já vem com arquivoUrl do backend
       }
+
+      setMateriais(novosMateriais); // atualiza lista com URLs corretas
       alert('Materiais enviados com sucesso!');
       navigate('/sessao-monitor');
     } catch (error) {
@@ -81,16 +83,15 @@ export default function MateriaisApoioMonitor() {
 
   return (
     <div className="content">
+      {/* Voltar */}
       <div className="voltar-home" onClick={() => navigate(-1)} style={{ cursor: 'pointer' }}>
-        <img
-          src="https://img.icons8.com/ios-filled/24/03bcd3/left.png"
-          alt="Voltar"
-        />
+        <img src="https://img.icons8.com/ios-filled/24/03bcd3/left.png" alt="Voltar" />
         <span style={{ marginLeft: '4px' }}>Voltar</span>
       </div>
 
       <h2>Adicionar material</h2>
 
+      {/* Formulário */}
       <div className="formulario-material">
         <label>Título</label>
         <input
@@ -100,9 +101,10 @@ export default function MateriaisApoioMonitor() {
           onChange={e => handleInput('titulo', e.target.value)}
         />
 
-        <label>Arquivo (opcional, apenas exibido)</label>
+        <label>Arquivo (opcional)</label>
         <input
           type="file"
+          ref={arquivoInputRef}
           onChange={e => handleInput('arquivo', e.target.files[0])}
         />
 
@@ -119,17 +121,24 @@ export default function MateriaisApoioMonitor() {
         </button>
       </div>
 
+      {/* Lista de materiais temporários */}
       <div className="lista-materiais">
         {materiais.map(mat => (
-          <div key={mat.tempId} className="item-material">
+          <div key={mat.materialId ?? mat.tempId}
+ className="item-material">
             <strong>{mat.titulo}</strong>
-            {mat.arquivo && <p>📎 {mat.arquivo}</p>}
+            {mat.arquivo && (
+              <p>
+                📎 {mat.arquivoUrl
+                  ? <a href={mat.arquivoUrl} target="_blank" rel="noreferrer">{mat.arquivo}</a>
+                  : mat.arquivo.name
+                }
+              </p>
+            )}
+
             {mat.link && (
               <p>
-                🔗{' '}
-                <a href={mat.link} target="_blank" rel="noreferrer">
-                  {mat.link}
-                </a>
+                🔗 <a href={mat.link} target="_blank" rel="noreferrer">{mat.link}</a>
               </p>
             )}
             <button onClick={() => removerMaterial(mat.tempId)} disabled={loading}>
@@ -139,6 +148,7 @@ export default function MateriaisApoioMonitor() {
         ))}
       </div>
 
+      {/* Botão salvar todos */}
       {materiais.length > 0 && (
         <button className="btn-salvar" onClick={salvarTodos} disabled={loading}>
           {loading ? 'Enviando...' : 'Salvar'}

@@ -15,8 +15,9 @@ export default function SessaoMonitor() {
     const dt = new Date(sessaoRaw.data);
     return {
       sessaoId: sessaoRaw.sessaoId,
+      monitoriaId: sessaoRaw.monitoriaId,
       data: dt,
-      dataFormatada: dt.toLocaleDateString(),
+      dataFormatada: dt.toLocaleDateString('pt-BR'),
       horaFormatada: dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       titulo: sessaoRaw.disciplinaMonitoria,
       link: sessaoRaw.linkSalaVirtual,
@@ -57,7 +58,6 @@ export default function SessaoMonitor() {
         const errData = await res.json();
         throw new Error(errData.message || 'Erro ao atualizar status');
       }
-      // Atualizar estado local para refletir mudança
       setSessoesMonitor(prev =>
         prev.map(sessao =>
           sessao.sessaoId === sessaoId ? { ...sessao, status: novoStatus } : sessao
@@ -70,76 +70,66 @@ export default function SessaoMonitor() {
     }
   }
 
-  if (loading) return <p>Carregando sessões...</p>;
-  if (erro) return <p style={{ color: 'red' }}>Erro: {erro}</p>;
-  if (sessoesMonitor.length === 0) return <p>Nenhuma sessão agendada.</p>;
-
   return (
     <div className="content">
-      <div
-        className="voltar-home"
-        onClick={() => navigate('/home-monitor')}
-        style={{ cursor: 'pointer' }}
-      >
-        <img
-          src="https://img.icons8.com/ios-filled/24/03bcd3/left.png"
-          alt="Voltar"
-        />
+      <div className="voltar-home" onClick={() => navigate('/home-monitor')}>
+        <img src="https://img.icons8.com/ios-filled/24/03bcd3/left.png" alt="Voltar" />
         <span>Voltar</span>
       </div>
 
-      <h2>Minhas sessões agendadas</h2>
+      <h2 className="titulo-sessao">Minhas sessões agendadas</h2>
 
-      <div className="lista-sessoes">
-        {sessoesMonitor.map(sessao => (
-          <div
-            key={sessao.sessaoId}
-            className={`card-sessao status-${sessao.status.toLowerCase()}`}
-            style={{ cursor: atualizando ? 'default' : 'pointer' }}
-            onClick={() =>
-              !atualizando &&
-              navigate('/sessao-detalhe-monitor', {
-                state: { sessao }
-              })
-            }
-          >
-            <h3>{sessao.titulo}</h3>
-            <p>
-              <strong>Data:</strong> {sessao.dataFormatada} <br />
-              <strong>Hora:</strong> {sessao.horaFormatada}
-            </p>
-            <p>
-              <strong>Status:</strong> {sessao.status} <br />
-              <strong>Aluno:</strong> {sessao.alunoNome}
-            </p>
+      {loading ? (
+        <div className="skeleton-container">
+          {[...Array(3)].map((_, i) => (
+            <div className="skeleton-card" key={i}></div>
+          ))}
+        </div>
+      ) : erro ? (
+        <p className="mensagem-status erro">Erro: {erro}</p>
+      ) : sessoesMonitor.length === 0 ? (
+        <p className="mensagem-status sem-sessoes">Nenhuma sessão agendada.</p>
+      ) : (
+        <div className="lista-sessoes-grid">
+          {sessoesMonitor.map(sessao => (
+            <div
+              key={sessao.sessaoId}
+              className={`card-sessao status-${sessao.status.toLowerCase()}`}
+              style={{ opacity: atualizando ? 0.6 : 1, pointerEvents: atualizando ? 'none' : 'auto' }}
+              onClick={() => !atualizando && navigate('/sessao-detalhe-monitor', { state: { sessao } })}
+            >
+              <h3>{sessao.titulo}</h3>
+              <p>
+                <strong>Data:</strong> {sessao.dataFormatada} <br />
+                <strong>Hora:</strong> {sessao.horaFormatada}
+              </p>
+              <p>
+                <strong>Status:</strong> {sessao.status} <br />
+                <strong>Aluno:</strong> {sessao.alunoNome}
+              </p>
 
-            {sessao.status === 'AGUARDANDO_APROVACAO' && (
-              <div className="acoes-status">
-                <button
-                  className="btn-deferir"
-                  onClick={e => {
-                    e.stopPropagation();
-                    atualizarStatus(sessao.sessaoId, 'DEFERIDA');
-                  }}
-                  disabled={atualizando}
-                >
-                  Deferir
-                </button>
-                <button
-                  className="btn-recusar"
-                  onClick={e => {
-                    e.stopPropagation();
-                    atualizarStatus(sessao.sessaoId, 'RECUSADA');
-                  }}
-                  disabled={atualizando}
-                >
-                  Recusar
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+              {sessao.status === 'AGUARDANDO_APROVACAO' && (
+                <div className="acoes-status">
+                  <button
+                    className="btn-deferir"
+                    onClick={e => { e.stopPropagation(); atualizarStatus(sessao.sessaoId, 'DEFERIDA'); }}
+                    disabled={atualizando}
+                  >
+                    Deferir
+                  </button>
+                  <button
+                    className="btn-recusar"
+                    onClick={e => { e.stopPropagation(); atualizarStatus(sessao.sessaoId, 'RECUSADA'); }}
+                    disabled={atualizando}
+                  >
+                    Recusar
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -16,25 +16,18 @@ export default function SessaoAluno() {
       return;
     }
 
-    // Busca sessões do aluno
     fetch(`http://localhost:8080/api/sessoes/aluno/${alunoId}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao carregar sessões");
         return res.json();
       })
       .then((data) => {
-        // Filtra somente sessões deferidas
-        const deferidas = data.filter((s) => s.status === "DEFERIDA");
-
-        // Ordena por data
-        deferidas.sort((a, b) => new Date(a.data) - new Date(b.data));
-
+        const deferidas = data
+          .filter((s) => s.status === "DEFERIDA")
+          .sort((a, b) => new Date(a.data) - new Date(b.data));
         setSessoes(deferidas);
       })
-      .catch((err) => {
-        console.error(err);
-        alert("Falha ao carregar sessões.");
-      })
+      .catch(() => alert("Falha ao carregar sessões."))
       .finally(() => setLoading(false));
   }, [alunoId, navigate]);
 
@@ -48,14 +41,20 @@ export default function SessaoAluno() {
         <span>Voltar</span>
       </div>
 
-      <h2>Minhas Sessões Deferidas</h2>
+      <h2 className="titulo-sessao">Minhas Sessões Deferidas</h2>
 
       {loading ? (
-        <p>Carregando sessões...</p>
+        <div className="skeleton-container">
+          {[...Array(3)].map((_, i) => (
+            <div className="skeleton-card" key={i}></div>
+          ))}
+        </div>
       ) : sessoes.length === 0 ? (
-        <p className="sem-sessoes">Nenhuma sessão deferida encontrada.</p>
+        <p className="mensagem-status sem-sessoes">
+          Nenhuma sessão deferida encontrada.
+        </p>
       ) : (
-        <div className="lista-sessoes">
+        <div className="lista-sessoes-grid">
           {sessoes.map((sessao) => {
             const dataHora = new Date(sessao.data);
             const dataFormatada = dataHora.toLocaleDateString("pt-BR", {
@@ -72,10 +71,7 @@ export default function SessaoAluno() {
               <div
                 className="card-sessao"
                 key={sessao.sessaoId}
-                style={{ cursor: 'pointer' }}
-                onClick={() =>
-                  navigate('/sessao-detalhe', { state: { sessao } })
-                }
+                onClick={() => navigate("/sessao-detalhe", { state: { sessao } })}
               >
                 <h3>{sessao.disciplinaMonitoria}</h3>
                 <p>
@@ -90,7 +86,7 @@ export default function SessaoAluno() {
                     href={sessao.linkSalaVirtual}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()} // evita disparar o onClick do card
+                    onClick={(e) => e.stopPropagation()}
                   >
                     Entrar na Sala Virtual
                   </a>
@@ -98,7 +94,6 @@ export default function SessaoAluno() {
               </div>
             );
           })}
-
         </div>
       )}
     </div>

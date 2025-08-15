@@ -4,41 +4,45 @@ import '../styles/Perfil.css';
 
 export default function Perfil() {
   const navigate = useNavigate();
+  const usuarioId = localStorage.getItem('usuarioId');
 
   const [dados, setDados] = useState({
     usuarioId: null,
     nome: '',
-    telefone: '',
+    celular: '',
     email: '',
-    curso: '',
+    cursoNome: '',
+    cursoId: null,
     matricula: '',
-    tipo: ''
+    tipoUsuario: '',
+    senha: '',           // Adicionado para compatibilidade com PUT
+    dataNascimento: ''   // Adicionado para compatibilidade com PUT
   });
 
   const [editando, setEditando] = useState(false);
   const [carregando, setCarregando] = useState(true);
   const [mensagem, setMensagem] = useState('');
 
-  // Pega o ID do usuário logado do localStorage (ajuste se estiver salvando de outra forma)
-  const usuarioId = localStorage.getItem('usuarioId');
-
-  // Carrega dados do usuário
   useEffect(() => {
+    if (!usuarioId) return;
+
     const fetchUsuario = async () => {
       try {
         const resp = await fetch(`http://localhost:8080/api/usuarios/${usuarioId}`);
         if (!resp.ok) throw new Error('Erro ao buscar dados do usuário.');
-
         const data = await resp.json();
 
         setDados({
           usuarioId: data.usuarioId,
           nome: data.nome,
-          telefone: data.celular || '',
+          celular: data.celular || '',
           email: data.email,
-          curso: data.cursoNome,
-          matricula: data.matricula,
-          tipo: data.tipoUsuario
+          cursoNome: data.cursoNome || '',
+          cursoId: data.cursoId || null,
+          matricula: data.matricula || '',
+          tipoUsuario: data.tipoUsuario || '',
+          senha: '',                // Mantemos vazio por segurança
+          dataNascimento: data.dataNascimento || ''
         });
       } catch (err) {
         setMensagem(err.message);
@@ -47,7 +51,7 @@ export default function Perfil() {
       }
     };
 
-    if (usuarioId) fetchUsuario();
+    fetchUsuario();
   }, [usuarioId]);
 
   const handleChange = (e) => {
@@ -56,24 +60,27 @@ export default function Perfil() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMensagem('');
     try {
       const response = await fetch(`http://localhost:8080/api/usuarios/${dados.usuarioId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nome: dados.nome,
+          celular: dados.celular,
           email: dados.email,
-          senha: '', // você pode tratar senha em outra tela
-          celular: dados.telefone,
-          dataNascimento: null, // ajuste se tiver esse campo
           matricula: dados.matricula,
-          tipoUsuario: dados.tipo,
-          cursoId: null // se quiser permitir troca de curso
+          tipoUsuario: dados.tipoUsuario,
+          cursoId: dados.cursoId,
+          senha: dados.senha,
+          dataNascimento: dados.dataNascimento
         })
       });
 
-      if (!response.ok) throw new Error('Erro ao salvar alterações.');
-
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData?.message || 'Erro ao salvar alterações.');
+      }
       setMensagem('Dados atualizados com sucesso!');
       setEditando(false);
     } catch (err) {
@@ -85,7 +92,7 @@ export default function Perfil() {
 
   return (
     <div className="content perfil-card">
-      <div className="voltar-home" onClick={() => navigate(-1, { replace: true })}>
+      <div className="voltar-home" onClick={() => navigate(-1)}>
         <img src="https://img.icons8.com/ios-filled/24/03bcd3/left.png" alt="Voltar" />
         <span>Voltar</span>
       </div>
@@ -96,34 +103,22 @@ export default function Perfil() {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Nome</label>
-          <input
-            type="text"
-            name="nome"
-            value={dados.nome}
-            onChange={handleChange}
-            disabled={!editando}
-          />
+          <input type="text" name="nome" value={dados.nome} onChange={handleChange} disabled={!editando} />
         </div>
 
         <div className="form-group">
           <label>Telefone</label>
-          <input
-            type="text"
-            name="telefone"
-            value={dados.telefone}
-            onChange={handleChange}
-            disabled={!editando}
-          />
+          <input type="text" name="celular" value={dados.celular} onChange={handleChange} disabled={!editando} />
         </div>
 
         <div className="form-group">
           <label>E-mail</label>
-          <input type="email" value={dados.email} disabled />
+          <input type="email" name="email" value={dados.email} disabled />
         </div>
 
         <div className="form-group">
           <label>Curso</label>
-          <input type="text" value={dados.curso} disabled />
+          <input type="text" value={dados.cursoNome} disabled />
         </div>
 
         <div className="form-group">
@@ -133,7 +128,7 @@ export default function Perfil() {
 
         <div className="form-group">
           <label>Tipo de Usuário</label>
-          <input type="text" value={dados.tipo} disabled />
+          <input type="text" value={dados.tipoUsuario} disabled />
         </div>
 
         <div className="botoes">
@@ -146,6 +141,5 @@ export default function Perfil() {
         </div>
       </form>
     </div>
-
   );
 }
