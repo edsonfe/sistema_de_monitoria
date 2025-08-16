@@ -20,4 +20,5 @@ public class NotificacaoResponseDTO {
     private boolean lida;
     private Long usuarioDestinoId;
     private String usuarioDestinoNome;
+    private String link;
 }

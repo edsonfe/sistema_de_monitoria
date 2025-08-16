@@ -24,7 +24,6 @@ import br.ufma.monitoria.backend.service.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-
 @RestController
 @RequestMapping("/api/notificacoes")
 @RequiredArgsConstructor
@@ -41,6 +40,7 @@ public class NotificacaoController {
 
             Notificacao notificacao = Notificacao.builder()
                     .mensagem(dto.getMensagem())
+                    .link(dto.getLink()) // 🔗
                     .usuarioDestino(usuarioDestino)
                     .dataCriacao(LocalDateTime.now())
                     .lida(false)
@@ -102,6 +102,7 @@ public class NotificacaoController {
                 .lida(notificacao.getLida())
                 .usuarioDestinoId(notificacao.getUsuarioDestino().getUsuarioId())
                 .usuarioDestinoNome(notificacao.getUsuarioDestino().getNome())
+                .link(notificacao.getLink())
                 .build();
     }
 }
